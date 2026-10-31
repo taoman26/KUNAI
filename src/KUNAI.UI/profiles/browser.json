@@ -1,0 +1,141 @@
+{
+  "name": "browser",
+  "layers": [
+    {
+      "layerNumber": 0,
+      "mappings": [
+        {
+          "button": "A",
+          "action": "Enter"
+        },
+        {
+          "button": "One",
+          "action": "Ctrl+T"
+        },
+        {
+          "button": "Two",
+          "action": "Ctrl+W"
+        },
+        {
+          "button": "Plus",
+          "action": "Ctrl+R"
+        },
+        {
+          "button": "Minus",
+          "action": "Ctrl+L"
+        },
+        {
+          "button": "Up",
+          "action": "Up"
+        },
+        {
+          "button": "Down",
+          "action": "Down"
+        },
+        {
+          "button": "Left",
+          "action": "Alt+Left"
+        },
+        {
+          "button": "Right",
+          "action": "Alt+Right"
+        }
+      ]
+    },
+    {
+      "layerNumber": 1,
+      "mappings": [
+        {
+          "button": "A",
+          "action": "Ctrl+Shift+T"
+        },
+        {
+          "button": "One",
+          "action": "Ctrl+Shift+Tab"
+        },
+        {
+          "button": "Two",
+          "action": "Ctrl+Tab"
+        },
+        {
+          "button": "Plus",
+          "action": "Ctrl+Plus"
+        },
+        {
+          "button": "Minus",
+          "action": "Ctrl+-"
+        },
+        {
+          "button": "Up",
+          "action": "PageUp"
+        },
+        {
+          "button": "Down",
+          "action": "PageDown"
+        },
+        {
+          "button": "Left",
+          "action": "BrowserBack"
+        },
+        {
+          "button": "Right",
+          "action": "BrowserForward"
+        }
+      ]
+    },
+    {
+      "layerNumber": 2,
+      "mappings": [
+        {
+          "button": "A",
+          "action": "Alt+Tab"
+        },
+        {
+          "button": "One",
+          "action": "Win+D"
+        },
+        {
+          "button": "Two",
+          "action": "BrowserBack"
+        },
+        {
+          "button": "Plus",
+          "action": "F5"
+        },
+        {
+          "button": "Minus",
+          "action": "F11"
+        }
+      ]
+    },
+    {
+      "layerNumber": 3,
+      "mappings": [
+        {
+          "button": "A",
+          "action": "LaunchTerminal"
+        },
+        {
+          "button": "One",
+          "action": "LaunchBrowser"
+        },
+        {
+          "button": "Two",
+          "action": "LockScreen"
+        },
+        {
+          "button": "Plus",
+          "action": "VolumeUp"
+        },
+        {
+          "button": "Minus",
+          "action": "VolumeDown"
+        },
+        {
+          "button": "Up",
+          "action": "Mute"
+        }
+      ]
+    }
+  ]
+}

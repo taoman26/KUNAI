@@ -1,0 +1,166 @@
+{
+  "name": "coding",
+  "layers": [
+    {
+      "layerNumber": 0,
+      "mappings": [
+        {
+          "button": "A",
+          "action": "Enter"
+        },
+        {
+          "button": "One",
+          "action": "Ctrl+C"
+        },
+        {
+          "button": "Two",
+          "action": "Ctrl+V"
+        },
+        {
+          "button": "Plus",
+          "action": "Ctrl+S"
+        },
+        {
+          "button": "Minus",
+          "action": "Ctrl+/"
+        },
+        {
+          "button": "Up",
+          "action": "Up"
+        },
+        {
+          "button": "Down",
+          "action": "Down"
+        },
+        {
+          "button": "Left",
+          "action": "Left"
+        },
+        {
+          "button": "Right",
+          "action": "Right"
+        }
+      ]
+    },
+    {
+      "layerNumber": 1,
+      "mappings": [
+        {
+          "button": "A",
+          "action": "Ctrl+Z"
+        },
+        {
+          "button": "One",
+          "action": "Ctrl+Shift+Z"
+        },
+        {
+          "button": "Two",
+          "action": "Ctrl+X"
+        },
+        {
+          "button": "Plus",
+          "action": "",
+          "macro": [
+            "Ctrl+S",
+            "Delay(300)",
+            "Alt+Tab"
+          ]
+        },
+        {
+          "button": "Minus",
+          "action": "Ctrl+Shift+/"
+        },
+        {
+          "button": "Up",
+          "action": "PageUp"
+        },
+        {
+          "button": "Down",
+          "action": "PageDown"
+        },
+        {
+          "button": "Left",
+          "action": "Home"
+        },
+        {
+          "button": "Right",
+          "action": "End"
+        }
+      ]
+    },
+    {
+      "layerNumber": 2,
+      "mappings": [
+        {
+          "button": "A",
+          "action": "Alt+Tab"
+        },
+        {
+          "button": "One",
+          "action": "Win+D"
+        },
+        {
+          "button": "Two",
+          "action": "BrowserBack"
+        },
+        {
+          "button": "Plus",
+          "action": "F5"
+        },
+        {
+          "button": "Minus",
+          "action": "F12"
+        },
+        {
+          "button": "Up",
+          "action": "Ctrl+Home"
+        },
+        {
+          "button": "Down",
+          "action": "Ctrl+End"
+        },
+        {
+          "button": "Left",
+          "action": "Ctrl+Left"
+        },
+        {
+          "button": "Right",
+          "action": "Ctrl+Right"
+        }
+      ]
+    },
+    {
+      "layerNumber": 3,
+      "mappings": [
+        {
+          "button": "A",
+          "action": "LaunchTerminal"
+        },
+        {
+          "button": "One",
+          "action": "LaunchBrowser"
+        },
+        {
+          "button": "Two",
+          "action": "LockScreen"
+        },
+        {
+          "button": "Plus",
+          "action": "VolumeUp"
+        },
+        {
+          "button": "Minus",
+          "action": "VolumeDown"
+        },
+        {
+          "button": "Up",
+          "action": "Ctrl+Shift+T"
+        },
+        {
+          "button": "Down",
+          "action": "Mute"
+        }
+      ]
+    }
+  ]
+}

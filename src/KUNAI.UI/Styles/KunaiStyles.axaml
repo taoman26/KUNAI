@@ -1,0 +1,79 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- セクションのカード -->
+  <Style Selector="Border.card">
+    <Setter Property="Background" Value="#2A2C36" />
+    <Setter Property="BorderBrush" Value="#3B3E4D" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="Padding" Value="16" />
+  </Style>
+
+  <Style Selector="TextBlock.section">
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Foreground" Value="#4F8CFF" />
+  </Style>
+
+  <Style Selector="TextBlock.dim">
+    <Setter Property="Foreground" Value="#8B90A3" />
+  </Style>
+
+  <Style Selector="TextBlock.mono">
+    <Setter Property="FontFamily" Value="Cascadia Mono, Consolas, DejaVu Sans Mono, monospace" />
+  </Style>
+
+  <!-- ボタン -->
+  <Style Selector="Button">
+    <Setter Property="MinWidth" Value="84" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="CornerRadius" Value="6" />
+  </Style>
+
+  <Style Selector="Button.primary">
+    <Setter Property="Background" Value="#4F8CFF" />
+    <Setter Property="Foreground" Value="White" />
+    <Setter Property="FontWeight" Value="Bold" />
+  </Style>
+
+  <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="#6AA0FF" />
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+
+  <!-- ログ・テーブル領域 -->
+  <Style Selector="ListBox.log">
+    <Setter Property="Background" Value="#12131A" />
+    <Setter Property="BorderBrush" Value="#3B3E4D" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="6" />
+  </Style>
+
+  <Style Selector="ListBox.log ListBoxItem">
+    <Setter Property="Padding" Value="8,2" />
+    <Setter Property="MinHeight" Value="0" />
+  </Style>
+
+  <!-- レイヤー選択(横並びのタブ風) -->
+  <Style Selector="ListBox.layers">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="ItemsPanel">
+      <ItemsPanelTemplate>
+        <StackPanel Orientation="Horizontal" Spacing="6" />
+      </ItemsPanelTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="ListBox.layers ListBoxItem">
+    <Setter Property="Padding" Value="12,4" />
+    <Setter Property="MinHeight" Value="0" />
+    <Setter Property="Background" Value="#353847" />
+    <Setter Property="CornerRadius" Value="5" />
+  </Style>
+
+  <Style Selector="ListBox.layers ListBoxItem:selected /template/ ContentPresenter">
+    <Setter Property="Background" Value="#4F8CFF" />
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+</Styles>

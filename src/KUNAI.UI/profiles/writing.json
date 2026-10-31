@@ -1,0 +1,137 @@
+{
+  "name": "writing",
+  "layers": [
+    {
+      "layerNumber": 0,
+      "mappings": [
+        {
+          "button": "A",
+          "action": "Enter"
+        },
+        {
+          "button": "One",
+          "action": "Ctrl+C"
+        },
+        {
+          "button": "Two",
+          "action": "Ctrl+V"
+        },
+        {
+          "button": "Plus",
+          "action": "Ctrl+S"
+        },
+        {
+          "button": "Minus",
+          "action": "Ctrl+F"
+        },
+        {
+          "button": "Up",
+          "action": "Up"
+        },
+        {
+          "button": "Down",
+          "action": "Down"
+        },
+        {
+          "button": "Left",
+          "action": "Left"
+        },
+        {
+          "button": "Right",
+          "action": "Right"
+        }
+      ]
+    },
+    {
+      "layerNumber": 1,
+      "mappings": [
+        {
+          "button": "A",
+          "action": "Ctrl+Z"
+        },
+        {
+          "button": "One",
+          "action": "Ctrl+B"
+        },
+        {
+          "button": "Two",
+          "action": "Ctrl+I"
+        },
+        {
+          "button": "Plus",
+          "action": "Ctrl+U"
+        },
+        {
+          "button": "Minus",
+          "action": "Ctrl+A"
+        },
+        {
+          "button": "Up",
+          "action": "PageUp"
+        },
+        {
+          "button": "Down",
+          "action": "PageDown"
+        },
+        {
+          "button": "Left",
+          "action": "Home"
+        },
+        {
+          "button": "Right",
+          "action": "End"
+        }
+      ]
+    },
+    {
+      "layerNumber": 2,
+      "mappings": [
+        {
+          "button": "A",
+          "action": "Alt+Tab"
+        },
+        {
+          "button": "One",
+          "action": "Win+D"
+        },
+        {
+          "button": "Two",
+          "action": "BrowserBack"
+        },
+        {
+          "button": "Plus",
+          "action": "Ctrl+Shift+Z"
+        },
+        {
+          "button": "Minus",
+          "action": "Ctrl+H"
+        }
+      ]
+    },
+    {
+      "layerNumber": 3,
+      "mappings": [
+        {
+          "button": "A",
+          "action": "LaunchTerminal"
+        },
+        {
+          "button": "One",
+          "action": "LaunchBrowser"
+        },
+        {
+          "button": "Two",
+          "action": "LockScreen"
+        },
+        {
+          "button": "Plus",
+          "action": "VolumeUp"
+        },
+        {
+          "button": "Minus",
+          "action": "VolumeDown"
+        }
+      ]
+    }
+  ]
+}

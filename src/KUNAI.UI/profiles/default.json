@@ -1,0 +1,73 @@
+{
+  "name": "default",
+  "layers": [
+    {
+      "layerNumber": 0,
+      "mappings": [
+        {
+          "button": "A",
+          "action": "Enter"
+        },
+        {
+          "button": "One",
+          "action": "Ctrl+C"
+        },
+        {
+          "button": "Two",
+          "action": "Ctrl+V"
+        }
+      ]
+    },
+    {
+      "layerNumber": 1,
+      "mappings": [
+        {
+          "button": "A",
+          "action": "Ctrl+Z"
+        },
+        {
+          "button": "One",
+          "action": "Ctrl+Shift+Z"
+        },
+        {
+          "button": "Two",
+          "action": "Ctrl+X"
+        }
+      ]
+    },
+    {
+      "layerNumber": 2,
+      "mappings": [
+        {
+          "button": "A",
+          "action": "Alt+Tab"
+        },
+        {
+          "button": "One",
+          "action": "Win+D"
+        },
+        {
+          "button": "Two",
+          "action": "BrowserBack"
+        }
+      ]
+    },
+    {
+      "layerNumber": 3,
+      "mappings": [
+        {
+          "button": "A",
+          "action": "LaunchTerminal"
+        },
+        {
+          "button": "One",
+          "action": "LaunchBrowser"
+        },
+        {
+          "button": "Two",
+          "action": "LockScreen"
+        }
+      ]
+    }
+  ]
+}

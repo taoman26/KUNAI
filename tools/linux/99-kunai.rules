@@ -1,0 +1,16 @@
+# KUNAI: 一般ユーザーが仮想キーボード(uinput)と Wii Remote(hidraw)を使えるようにする udev ルール
+#
+# インストール:
+#   sudo cp tools/linux/99-kunai.rules /etc/udev/rules.d/
+#   sudo udevadm control --reload-rules && sudo udevadm trigger
+#   sudo usermod -aG input "$USER"      # 実行後、ログインし直す
+#   sudo modprobe uinput                # 起動時に自動ロードするなら: echo uinput | sudo tee /etc/modules-load.d/uinput.conf
+
+# 仮想キーボードの作成(/dev/uinput)
+KERNEL=="uinput", SUBSYSTEM=="misc", GROUP="input", MODE="0660", OPTIONS+="static_node=uinput"
+
+# Wii Remote(Bluetooth HID)の生レポート読み取り(/dev/hidraw*)
+# 注意: Bluetooth 接続の hidraw はデバイス名(KERNELS)で照合する。0306 = 初代、0330 = Wii Remote Plus。
+# このルールは実機で未検証。効かない場合は `udevadm info -a -n /dev/hidrawN` で実際の属性を確認すること。
+SUBSYSTEM=="hidraw", KERNELS=="0005:057E:0306.*", GROUP="input", MODE="0660"
+SUBSYSTEM=="hidraw", KERNELS=="0005:057E:0330.*", GROUP="input", MODE="0660"

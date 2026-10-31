@@ -1,0 +1,53 @@
+using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Markup.Xaml;
+using KUNAI.UI.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace KUNAI.UI;
+
+/// <summary>アプリケーションの起動・終了のつなぎ込みのみ。画面のロジックは ViewModel にある。</summary>
+public partial class App : Application
+{
+    private readonly IServiceProvider _services;
+
+    public App(IServiceProvider services)
+    {
+        _services = services;
+    }
+
+    public override void Initialize() => AvaloniaXamlLoader.Load(this);
+
+    public override void OnFrameworkInitializationCompleted()
+    {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            var viewModel = _services.GetRequiredService<MainViewModel>();
+
+            var window = (Avalonia.Controls.Window)AvaloniaXamlLoader.Load(
+                new Uri("avares://KUNAI.UI/Views/MainWindow.axaml"));
+            window.DataContext = viewModel;
+            desktop.MainWindow = window;
+
+            // 起動時に自動ロード。
+            window.Opened += async (_, _) => await viewModel.InitializeAsync();
+
+            // 終了時に自動保存してから、改めて終了する。
+            var shutdownDone = false;
+            desktop.ShutdownRequested += async (_, e) =>
+            {
+                if (shutdownDone)
+                {
+                    return;
+                }
+
+                e.Cancel = true;
+                await viewModel.ShutdownAsync();
+                shutdownDone = true;
+                desktop.Shutdown();
+            };
+        }
+
+        base.OnFrameworkInitializationCompleted();
+    }
+}

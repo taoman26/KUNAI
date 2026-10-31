@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="profiles\*.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.0" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.0" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.0" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KUNAI.Core\KUNAI.Core.csproj" />
+    <ProjectReference Include="..\KUNAI.Input\KUNAI.Input.csproj" />
+    <ProjectReference Include="..\KUNAI.Actions\KUNAI.Actions.csproj" />
+    <ProjectReference Include="..\KUNAI.Platform.Windows\KUNAI.Platform.Windows.csproj" />
+    <ProjectReference Include="..\KUNAI.Platform.Linux\KUNAI.Platform.Linux.csproj" />
+  </ItemGroup>
+</Project>

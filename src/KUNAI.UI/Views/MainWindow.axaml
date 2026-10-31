@@ -1,0 +1,152 @@
+<!--
+  コードビハインドを持たないウィンドウ(x:Class なし)。
+  App が AvaloniaXamlLoader で読み込み、DataContext に MainViewModel を設定する。
+-->
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:KUNAI.UI.ViewModels"
+        xmlns:beh="using:KUNAI.UI.Behaviors"
+        x:DataType="vm:MainViewModel"
+        Title="KUNAI"
+        Width="760" Height="900"
+        MinWidth="640" MinHeight="720"
+        Background="#1E1F26">
+
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Margin="24" Spacing="14">
+
+      <!-- ヘッダー -->
+      <StackPanel Spacing="2">
+        <TextBlock Text="{Binding Title}" FontSize="30" FontWeight="Bold" />
+        <TextBlock Text="{Binding Subtitle}" Classes="dim" FontSize="13" />
+      </StackPanel>
+
+      <!-- Connection -->
+      <Border Classes="card">
+        <StackPanel Spacing="12">
+          <TextBlock Text="Connection" Classes="section" />
+          <Grid ColumnDefinitions="Auto,24,*,Auto">
+            <Button Grid.Column="0"
+                    Classes="primary"
+                    Content="{Binding ConnectButtonText}"
+                    Command="{Binding ConnectCommand}"
+                    Width="130" Height="38" />
+
+            <StackPanel Grid.Column="2" Spacing="4">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <Ellipse Width="12" Height="12" VerticalAlignment="Center"
+                         Fill="{Binding State, Converter={StaticResource StateBrush}}" />
+                <TextBlock VerticalAlignment="Center">
+                  <Run Text="Status  :  " />
+                  <Run Text="{Binding StatusText}"
+                       Foreground="{Binding State, Converter={StaticResource StateBrush}}" />
+                </TextBlock>
+              </StackPanel>
+              <TextBlock Text="{Binding BatteryPercent, StringFormat='Battery :  {0}%'}" />
+              <TextBlock Text="{Binding ActiveLayer, StringFormat='Layer   :  {0}'}" />
+            </StackPanel>
+
+            <ProgressBar Grid.Column="3"
+                         Foreground="#3ECF6E"
+                         Width="150" Height="12"
+                         VerticalAlignment="Bottom"
+                         Minimum="0" Maximum="100"
+                         Value="{Binding BatteryPercent}" />
+          </Grid>
+        </StackPanel>
+      </Border>
+
+      <!-- Profile -->
+      <Border Classes="card">
+        <StackPanel Spacing="10">
+          <TextBlock Text="Profile" Classes="section" />
+          <ComboBox ItemsSource="{Binding ProfileNames}"
+                    SelectedItem="{Binding SelectedProfileName}"
+                    Width="300" />
+        </StackPanel>
+      </Border>
+
+      <!-- Mappings -->
+      <Border Classes="card">
+        <StackPanel Spacing="10">
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="Mappings" Classes="section" VerticalAlignment="Center" />
+            <ListBox Grid.Column="1"
+                     Classes="layers"
+                     ItemsSource="{Binding LayerNumbers}"
+                     SelectedIndex="{Binding EditingLayer}">
+              <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="x:Int32">
+                  <TextBlock Text="{Binding StringFormat='Layer {0}'}" FontSize="12" />
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+          </Grid>
+
+          <!-- 表ヘッダー -->
+          <Grid ColumnDefinitions="150,*,28" Margin="10,0">
+            <TextBlock Grid.Column="0" Text="Button" Classes="dim" FontWeight="Bold" />
+            <TextBlock Grid.Column="1" Text="Action" Classes="dim" FontWeight="Bold" />
+          </Grid>
+
+          <ListBox Classes="log"
+                   Height="220"
+                   ItemsSource="{Binding Mappings}"
+                   SelectedItem="{Binding SelectedMapping}">
+            <ListBox.ItemTemplate>
+              <DataTemplate x:DataType="vm:MappingRowViewModel">
+                <Grid ColumnDefinitions="150,*,28">
+                  <ComboBox Grid.Column="0"
+                            Width="130"
+                            ItemsSource="{x:Static vm:MappingRowViewModel.AvailableButtons}"
+                            SelectedItem="{Binding Button}" />
+                  <TextBox Grid.Column="1"
+                           Classes="mono"
+                           Watermark="Ctrl+C   or   Ctrl+S; Delay(300); Alt+Tab"
+                           Text="{Binding ActionText}" />
+                  <TextBlock Grid.Column="2"
+                             Text="⚠"
+                             Foreground="#EB5757"
+                             FontSize="16"
+                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                             IsVisible="{Binding HasError}"
+                             ToolTip.Tip="{Binding Error}" />
+                </Grid>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+
+          <Grid ColumnDefinitions="Auto,Auto,*,Auto">
+            <Button Grid.Column="0" Content="Add" Command="{Binding AddCommand}" Margin="0,0,8,0" />
+            <Button Grid.Column="1" Content="Remove" Command="{Binding RemoveCommand}" />
+            <TextBlock Grid.Column="2"
+                       Text="{Binding StatusMessage}"
+                       Classes="dim"
+                       Margin="16,0"
+                       VerticalAlignment="Center"
+                       TextTrimming="CharacterEllipsis" />
+            <Button Grid.Column="3" Classes="primary" Content="Save" Command="{Binding SaveCommand}" />
+          </Grid>
+        </StackPanel>
+      </Border>
+
+      <!-- Log -->
+      <Border Classes="card">
+        <StackPanel Spacing="10">
+          <TextBlock Text="Log" Classes="section" />
+          <ListBox Classes="log"
+                   Height="170"
+                   ItemsSource="{Binding Log}"
+                   beh:AutoScrollBehavior.IsEnabled="True">
+            <ListBox.ItemTemplate>
+              <DataTemplate x:DataType="x:Object">
+                <TextBlock Classes="mono" FontSize="13" Text="{Binding}" />
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+        </StackPanel>
+      </Border>
+
+    </StackPanel>
+  </ScrollViewer>
+</Window>
