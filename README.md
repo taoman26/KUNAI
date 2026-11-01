@@ -158,9 +158,11 @@ Core は Platform を参照せず、抽象(`ISyntheticKeyboard`, `ISystemActions
 | 単体テスト 361 件(行カバレッジ 約 79%) | 合格 |
 | 画面描画(ヘッドレス)・DI 解決・プロファイル読み書き | 確認済み |
 | Wii Remote の自動ペアリング・接続(Windows / Linux) | **確認済み**(利用者による報告) |
-| Wii Remote のボタン読み取り・電池取得 | **未検証**(Fake の転送層でのみテスト) |
-| Windows `SendInput` によるキー送出 / `LockWorkStation` | **未検証**(イベント列・構造体サイズのみテスト) |
-| Linux `uinput` への実書き込み | **未検証**(`/dev/uinput` の権限が無い環境で開発) |
+| Wii Remote のボタン読み取り | **確認済み**(利用者による報告) |
+| Wii Remote の電池取得 | **未検証**(Fake の転送層でのみテスト) |
+| Windows `SendInput` によるキー送出 | **確認済み**(利用者による報告) |
+| Windows `LockWorkStation` | **未検証**(イベント列・構造体サイズのみテスト) |
+| Linux `uinput` への実書き込み(キー送出) | **確認済み**(利用者による報告) |
 | Linux のブラウザ/端末/音量/ロックの外部コマンド | **未検証**(起動コマンドと引数のみテスト) |
 | 実ウィンドウでの操作(マウス・キーボード) | **未検証** |
 
