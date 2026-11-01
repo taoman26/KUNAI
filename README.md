@@ -7,6 +7,10 @@ QMK のレイヤー、Stream Deck のアクション、TourBox の片手操作�
 - .NET 8 LTS + Avalonia 11(MVVM は CommunityToolkit.Mvvm、ReactiveUI は不使用)
 - プロファイルは JSON。ショートカット、OS 機能、マクロ(`Delay` 対応)を割り当て可能
 
+![KUNAI のメイン画面](docs/screenshot_main.png)
+
+*メイン画面(Wii Remote の接続と操作を模擬した状態で描画した画像で、実機のキャプチャではありません)*
+
 ## レイヤー
 
 B と Home を押している間だけ切り替わる、QMK 風のモメンタリーレイヤーです。離すと元のレイヤーへ戻ります。
