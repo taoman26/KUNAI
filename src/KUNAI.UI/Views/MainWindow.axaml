@@ -8,6 +8,7 @@
         xmlns:beh="using:KUNAI.UI.Behaviors"
         x:DataType="vm:MainViewModel"
         Title="KUNAI"
+        Icon="avares://KUNAI.UI/Assets/icon.png"
         Width="760" Height="900"
         MinWidth="640" MinHeight="720"
         Background="#1E1F26">
