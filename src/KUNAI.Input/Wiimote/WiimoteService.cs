@@ -14,6 +14,7 @@ public sealed class WiimoteService : IWiimoteService, IAsyncDisposable
 {
     private readonly IWiimoteTransport _transport;
     private readonly WiimoteServiceOptions _options;
+    private readonly IWiimotePairing? _pairing;
     private readonly SemaphoreSlim _lifecycle = new(1, 1);
     private readonly object _stateGate = new();
 
@@ -23,10 +24,17 @@ public sealed class WiimoteService : IWiimoteService, IAsyncDisposable
     private Task? _readLoop;
     private volatile CancellationTokenSource? _cts;
 
-    public WiimoteService(IWiimoteTransport transport, WiimoteServiceOptions? options = null)
+    /// <param name="pairing">
+    /// 指定すると、Wii Remote が見つからない間、スキャンの合間に OS へ自動ペアリングを試みる(Windows 向け)。
+    /// </param>
+    public WiimoteService(
+        IWiimoteTransport transport,
+        WiimoteServiceOptions? options = null,
+        IWiimotePairing? pairing = null)
     {
         _transport = transport ?? throw new ArgumentNullException(nameof(transport));
         _options = options ?? WiimoteServiceOptions.Default;
+        _pairing = pairing;
     }
 
     public bool IsConnected => State == ConnectionState.Connected;
@@ -152,6 +160,8 @@ public sealed class WiimoteService : IWiimoteService, IAsyncDisposable
     private async Task<IWiimoteConnection> ScanAsync(CancellationToken token)
     {
         var timer = Stopwatch.StartNew();
+        var pairingDisabled = _pairing is null;
+        var lastPairing = TimeSpan.MinValue;
         while (true)
         {
             token.ThrowIfCancellationRequested();
@@ -163,11 +173,29 @@ public sealed class WiimoteService : IWiimoteService, IAsyncDisposable
                 return connection;
             }
 
+            // 見つからない間は OS へのペアリングを試みる。試行自体が数秒かかるので、間隔を空けて繰り返す。
+            if (!pairingDisabled
+                && (lastPairing == TimeSpan.MinValue || timer.Elapsed - lastPairing >= _options.PairingInterval))
+            {
+                var result = await _pairing!.TryPairAsync(token).ConfigureAwait(false);
+                lastPairing = timer.Elapsed;
+                if (result == WiimotePairingResult.NotSupported)
+                {
+                    pairingDisabled = true;
+                }
+                else if (result == WiimotePairingResult.Paired)
+                {
+                    // ペアリング直後は HID の列挙に少し時間がかかるため、すぐ再スキャンに戻る。
+                    await Task.Delay(_options.ScanInterval, token).ConfigureAwait(false);
+                    continue;
+                }
+            }
+
             if (timer.Elapsed >= _options.ConnectTimeout)
             {
                 throw new TimeoutException(
                     $"No Wii Remote was found within {_options.ConnectTimeout.TotalSeconds:0} seconds. " +
-                    "Pair it first (hold 1+2) and make sure it is connected in the OS Bluetooth settings.");
+                    "Press 1+2 on the Wii Remote while connecting (or pair it in the OS Bluetooth settings first).");
             }
 
             await Task.Delay(_options.ScanInterval, token).ConfigureAwait(false);

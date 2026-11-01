@@ -4,6 +4,7 @@ using KUNAI.Core.Abstractions;
 using KUNAI.Core.Services;
 using KUNAI.Input.Wiimote;
 using KUNAI.Platform.Linux;
+using KUNAI.Platform.Linux.Bluetooth;
 using KUNAI.Platform.Windows;
 using KUNAI.UI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
@@ -85,6 +86,7 @@ public static class ServiceCollectionExtensions
 
         services.AddSingleton<ISyntheticKeyboard, WindowsSyntheticKeyboard>();
         services.AddSingleton<ISystemActions, WindowsSystemActions>();
+        services.AddSingleton<IWiimotePairing, WindowsWiimotePairing>();
         return services;
     }
 
@@ -95,6 +97,12 @@ public static class ServiceCollectionExtensions
         // LinuxSyntheticKeyboard は IDisposable。コンテナの破棄時に仮想デバイスが削除される。
         services.AddSingleton<ISyntheticKeyboard, LinuxSyntheticKeyboard>();
         services.AddSingleton<ISystemActions, LinuxSystemActions>();
+
+        // Wii Remote の自動接続: 探索して L2CAP で直接接続し、その接続を優先して使う(無ければ hidraw から探す)。
+        services.AddSingleton<LinuxWiimoteLink>();
+        services.AddSingleton<IWiimotePairing, LinuxWiimotePairing>();
+        services.AddSingleton<IWiimoteTransport>(sp =>
+            new LinuxWiimoteTransport(new HidSharpWiimoteTransport(), sp.GetRequiredService<LinuxWiimoteLink>()));
         return services;
     }
 

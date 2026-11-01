@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KUNAI.Core\KUNAI.Core.csproj" />
+    <ProjectReference Include="..\KUNAI.Input\KUNAI.Input.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

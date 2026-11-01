@@ -43,22 +43,30 @@ dotnet publish src/KUNAI.UI -c Release -r win-x64   --self-contained false -o ou
 アプリの「Connect」は、OS に **接続済み(ペアリング済み)** の Wii Remote を最大 20 秒間探します。
 先に OS 側の Bluetooth でペアリングしてください。
 
-### Windows 11
-1. 設定 → Bluetooth とデバイス → デバイスを追加 → Bluetooth
-2. Wii Remote の **1 と 2 を同時押し**(LED が点滅している間に)して検出
-3. PIN を求められたら「PIN を使わずに接続」(またはスキップ)
-4. 一部の Bluetooth アダプターでは、ペアリングしても HID として認識されないことがあります
+### Windows 11(自動ペアリング)
+Windows の標準 UI では、Wii Remote のペアリングで PIN(Bluetooth アドレスのバイナリ値)を求められ、手入力できません。
+KUNAI は **Connect を押すと自分でペアリングします**。
 
-### Linux
-```bash
-bluetoothctl
-  power on
-  scan on            # Wii Remote の 1 と 2 を同時押し
-  pair  <MAC>        # PIN を求められたら空のまま Enter
-  connect <MAC>
-  trust <MAC>
-```
-カーネルの `hid-wiimote` ドライバが担当します。KUNAI は HidSharp 経由で `/dev/hidraw*` からレポートを読みます。
+1. KUNAI の **Connect** を押す(最大 30 秒間、探索とペアリングを繰り返します)
+2. Wii Remote の **1 と 2 を同時押し** して、LED を点滅させる(点滅の間、押し続けなくても構いませんが、数秒で消えるので Connect の直後に押す)
+3. ログに `Wii Remote found` → `Wii Remote paired` → `Connected` と出れば完了
+
+- 事前に Windows の Bluetooth をオンにしておくこと。Windows 側で Wii Remote を手動ペアリングする必要はありません(以前の失敗した登録が残っていれば、KUNAI が削除して作り直します)。
+- 失敗したときは、ログの `Pairing failed (error N)` を確認し、Wii Remote を 1+2 で再度点滅させてください。
+- 一部の Bluetooth アダプターは Wii Remote を HID として認識しないことがあります。
+- Windows 実機でペアリングに成功したことを確認済みです(利用者による報告)。
+
+### Linux(自動接続)
+Connect を押して Wii Remote の **1 と 2 を同時押し** するだけです。KUNAI が `bluetoothctl` で探索し、
+BlueZ のペアリング(PIN 認証)を経由せず **L2CAP で直接接続** します(Wii Remote は HID チャネルへの接続に認証を要求しません)。
+
+1. Bluetooth をオンにし、`bluez`(`bluetoothctl`)をインストールしておく
+2. KUNAI の **Connect** を押し、すぐに Wii Remote の 1 と 2 を同時押しして LED を点滅させる
+3. ログに `Wii Remote found` → `Wii Remote connected` → `Connected` と出れば完了
+
+- OS 側で手動ペアリングする必要はありません。すでに `hid-wiimote` 経由で接続済みなら、そちらを優先して使います。
+- 探索は 1 回約 6 秒で、30 秒間繰り返します。
+- この機能は Linux 実機の Bluetooth では検証できていません(開発環境に Bluetooth が無いため)。コマンド出力の解析と接続の受け渡しはモックでテスト済みですが、実際の L2CAP 接続は未検証です。
 
 ## Linux の権限設定(uinput / hidraw)
 
