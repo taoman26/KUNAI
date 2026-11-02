@@ -71,5 +71,22 @@ def main():
     final.save(OUT / "icon.ico", sizes=[(16, 16), (24, 24), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)])
     print("wrote", OUT / "icon.png", OUT / "icon.ico")
 
+    # トレイ用: 接続状態を右下の丸で示す(色は画面の状態色と同じ)。小さく表示されるので丸は大きめにする。
+    states = {
+        "disconnected": (235, 87, 87),   # #EB5757
+        "connecting": (242, 201, 76),    # #F2C94C
+        "connected": (62, 207, 110),     # #3ECF6E
+    }
+    base = final.resize((128, 128), Image.LANCZOS)
+    for name, color in states.items():
+        tray = base.copy().resize((512, 512), Image.LANCZOS)
+        d = ImageDraw.Draw(tray)
+        r, cx, cy = 118, 512 - 132, 512 - 132
+        d.ellipse([cx - r - 24, cy - r - 24, cx + r + 24, cy + r + 24], fill=BG)   # 縁取り(背景色)
+        d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=color + (255,))
+        tray = tray.resize((128, 128), Image.LANCZOS)
+        tray.save(OUT / f"icon_tray_{name}.png")
+        print("wrote", OUT / f"icon_tray_{name}.png")
+
 
 main()

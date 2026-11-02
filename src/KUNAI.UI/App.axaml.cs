@@ -1,6 +1,9 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using KUNAI.Core.Abstractions;
+using KUNAI.UI.DependencyInjection;
+using KUNAI.UI.Tray;
 using KUNAI.UI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +13,7 @@ namespace KUNAI.UI;
 public partial class App : Application
 {
     private readonly IServiceProvider _services;
+    private TrayController? _tray;
 
     public App(IServiceProvider services)
     {
@@ -28,6 +32,18 @@ public partial class App : Application
                 new Uri("avares://KUNAI.UI/Views/MainWindow.axaml"));
             window.DataContext = viewModel;
             desktop.MainWindow = window;
+
+            // トレイに常駐し、閉じる/最小化では非表示にする。終了はトレイメニューの Exit。
+            if (_services.GetRequiredService<KunaiOptions>().HideToTray)
+            {
+                var log = _services.GetRequiredService<ILogService>();
+                var backend = TrayBackendFactory.Create(this, viewModel, log);
+                if (backend is not null)
+                {
+                    _tray = new TrayController(desktop, window, viewModel, backend);
+                    log.Add($"System tray: {backend.Name}");
+                }
+            }
 
             // 起動時に自動ロード。
             window.Opened += async (_, _) => await viewModel.InitializeAsync();

@@ -38,6 +38,44 @@ dotnet publish src/KUNAI.UI -c Release -r linux-x64 --self-contained false -o ou
 dotnet publish src/KUNAI.UI -c Release -r win-x64   --self-contained false -o out/win
 ```
 
+## システムトレイへの常駐
+
+KUNAI はシステムトレイ(通知領域)に常駐します。
+
+- ウィンドウを **閉じる(×)** か **最小化** すると、ウィンドウが非表示になります(接続とキー送出は続きます)
+- トレイアイコンの **クリック**、またはメニューの **Show KUNAI** でウィンドウを再表示します
+- トレイのメニュー: **Show KUNAI** / **Connect(Disconnect)** / **Exit**
+- **終了はトレイメニューの Exit** から行います(終了時にプロファイルを自動保存します)
+- アイコンにカーソルを合わせると、接続状態と電池残量が表示されます
+- アイコン右下の丸の色が接続状態を表します(**赤**=切断 / **黄**=接続中 / **緑**=接続済み。画面の状態色と同じ)
+
+### Linux のトレイ
+
+KUNAI は、実行環境に合わせて次の順にトレイの方式を選びます。
+
+1. **XEmbed**(従来型のトレイ): Xfce の通知領域(Status Tray)、Enlightenment の Systray、KDE(X11)など
+2. **StatusNotifierItem**(SNI): KDE、GNOME(AppIndicator 拡張)、SNI 対応のパネルなど
+3. どちらも無ければ、トレイ常駐はせず、ウィンドウを閉じるとアプリが終了します(ウィンドウに戻れなくなるのを防ぐため)
+
+選ばれた方式は、アプリ起動直後のログに `System tray: XEmbed`(または `StatusNotifierItem`)と出ます。
+トレイが見つからないときは `No system tray found ...` と出ます。
+
+XEmbed 方式では、次の点が他の方式と違います。
+- 右クリックで出るメニューは、KUNAI 独自の簡易メニューです(Show KUNAI / Connect(Disconnect)/ Exit)
+- ツールチップは表示されません(接続状態はアイコン右下の丸の色で分かります)
+
+方式を指定したいとき(環境変数 `KUNAI_TRAY`)と、トレイを使わないとき:
+
+```bash
+KUNAI_TRAY=xembed ./KUNAI.UI    # XEmbed を使う(使えなければトレイ無し)
+KUNAI_TRAY=sni ./KUNAI.UI       # StatusNotifierItem を使う
+KUNAI_TRAY=none ./KUNAI.UI      # トレイを使わない(閉じるとアプリが終了)
+./KUNAI.UI --no-tray            # 同上
+```
+
+> Xfce でアイコンが出ないときは、パネルに「通知領域(Status Tray Plugin)」が追加されているか確認してください。
+> Enlightenment では、シェルフに「Systray」ガジェットを追加してください。
+
 ## Wii Remote の接続
 
 アプリの「Connect」は、OS に **接続済み(ペアリング済み)** の Wii Remote を最大 20 秒間探します。
@@ -165,6 +203,7 @@ Core は Platform を参照せず、抽象(`ISyntheticKeyboard`, `ISystemActions
 | Linux `uinput` への実書き込み(キー送出) | **確認済み**(利用者による報告) |
 | Linux のブラウザ/端末/音量/ロックの外部コマンド | **未検証**(起動コマンドと引数のみテスト) |
 | 実ウィンドウでの操作(マウス・キーボード) | **未検証** |
+| システムトレイのアイコン・メニュー(Windows / Linux) | **未検証**(閉じる/最小化→非表示、再表示、終了の流れはヘッドレス環境で確認。Linux の XEmbed 方式は実際のトレイに接続した確認なし) |
 
 ## 既知の制限と今後
 

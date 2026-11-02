@@ -11,7 +11,7 @@ public static class Program
     {
         // 依存関係の登録(OS ごとのプラットフォーム実装の切替を含む)。起動時に解決不能な登録があればここで失敗する。
         var provider = new ServiceCollection()
-            .AddKunai()
+            .AddKunai(new KunaiOptions(HideToTray: !args.Contains("--no-tray")))
             .BuildServiceProvider(new ServiceProviderOptions
             {
                 ValidateOnBuild = true,
