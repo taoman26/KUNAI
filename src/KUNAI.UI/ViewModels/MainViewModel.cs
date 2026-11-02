@@ -69,10 +69,12 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(StatusText))]
     [NotifyPropertyChangedFor(nameof(ConnectButtonText))]
+    [NotifyPropertyChangedFor(nameof(TrayToolTip))]
     [NotifyCanExecuteChangedFor(nameof(ConnectCommand))]
     private ConnectionState _state;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TrayToolTip))]
     private int _batteryPercent;
 
     [ObservableProperty]
@@ -92,6 +94,23 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     private string _statusMessage = string.Empty;
 
     public string StatusText => State.ToString();
+
+    /// <summary>トレイアイコンのツールチップ。接続中は電池残量も表示する。</summary>
+    public string TrayToolTip => State == ConnectionState.Connected
+        ? $"KUNAI - Connected (Battery {BatteryPercent}%)"
+        : $"KUNAI - {State}";
+
+    /// <summary>ウィンドウの表示を求める(トレイのメニュー/クリック)。表示の実処理は画面側が担当する。</summary>
+    public event EventHandler? ShowWindowRequested;
+
+    /// <summary>アプリの終了を求める(トレイのメニュー)。終了の実処理は画面側が担当する。</summary>
+    public event EventHandler? ExitRequested;
+
+    [RelayCommand]
+    private void ShowWindow() => ShowWindowRequested?.Invoke(this, EventArgs.Empty);
+
+    [RelayCommand]
+    private void Exit() => ExitRequested?.Invoke(this, EventArgs.Empty);
 
     public string ConnectButtonText => State == ConnectionState.Connected ? "Disconnect" : "Connect";
 

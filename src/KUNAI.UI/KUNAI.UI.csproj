@@ -8,6 +8,9 @@
   </PropertyGroup>
   <ItemGroup>
     <AvaloniaResource Include="..\..\assets\icon.png" Link="Assets\icon.png" />
+    <AvaloniaResource Include="..\..\assets\icon_tray_disconnected.png" Link="Assets\icon_tray_disconnected.png" />
+    <AvaloniaResource Include="..\..\assets\icon_tray_connecting.png" Link="Assets\icon_tray_connecting.png" />
+    <AvaloniaResource Include="..\..\assets\icon_tray_connected.png" Link="Assets\icon_tray_connected.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="profiles\*.json" CopyToOutputDirectory="PreserveNewest" />
