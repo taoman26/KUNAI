@@ -4,7 +4,7 @@ Nintendo Wii Remote を、プログラマ向けの **左手デバイス**(マク
 QMK のレイヤー、Stream Deck のアクション、TourBox の片手操作の考え方を、安価で入手しやすい Wii Remote で実現します。
 
 - Windows 11 / Ubuntu 22.04+ / Xubuntu 22.04+ / Debian 系 Linux(X11 優先)
-- .NET 8 LTS + Avalonia 11(MVVM は CommunityToolkit.Mvvm、ReactiveUI は不使用)
+- .NET 10 LTS + Avalonia 11(MVVM は CommunityToolkit.Mvvm、ReactiveUI は不使用)
 - プロファイルは JSON。ショートカット、OS 機能、マクロ(`Delay` 対応)を割り当て可能
 
 ![KUNAI のメイン画面](docs/screenshot_main.png)
@@ -26,14 +26,14 @@ B と Home は **レイヤー切替専用**で、アクションは割り当て�
 
 ## ビルドと実行
 
-必要なもの: [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+必要なもの: [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)(ターゲットは `net10.0`)
 
 ```bash
 dotnet build                       # ソリューション全体
-dotnet test                        # 単体テスト(361 件)
+dotnet test                        # 単体テスト(427 件)
 dotnet run --project src/KUNAI.UI  # 起動(デスクトップ環境が必要)
 
-# 配布用(フレームワーク依存。実行先に .NET 8 Runtime が必要)
+# 配布用(フレームワーク依存。実行先に .NET 10 Runtime が必要。--self-contained true ならランタイム同梱)
 dotnet publish src/KUNAI.UI -c Release -r linux-x64 --self-contained false -o out/linux
 dotnet publish src/KUNAI.UI -c Release -r win-x64   --self-contained false -o out/win
 ```
@@ -75,6 +75,16 @@ KUNAI_TRAY=none ./KUNAI.UI      # トレイを使わない(閉じるとアプリ
 
 > Xfce でアイコンが出ないときは、パネルに「通知領域(Status Tray Plugin)」が追加されているか確認してください。
 > Enlightenment では、シェルフに「Systray」ガジェットを追加してください。
+
+## 多重起動の制限
+
+KUNAI は、ユーザーごとに 1 つだけ起動できます。すでに動いている状態でもう一度起動すると、
+新しい方は起動せず、**動いている方のウィンドウを前面に表示して**終了します(トレイに隠れていても表示されます)。
+
+- 同じ Wii Remote を複数のプロセスが取り合ったり、プロファイルの自動保存が互いに上書きし合ったりするのを防ぐためです
+- ロックは、ユーザーの設定領域の `KUNAI/instance.lock`(Linux: `~/.config/KUNAI/`、Windows: `%APPDATA%\KUNAI\`)で行います。異常終了してもロックは残りません
+- 開発・検証で複数起動したいときは、起動引数 `--allow-multiple` を付けてください(Wii Remote やプロファイルの競合は自己責任です)
+- 複数の Wii Remote を別々に使い分ける機能は、まだありません
 
 ## Wii Remote の接続
 
@@ -193,7 +203,7 @@ Core は Platform を参照せず、抽象(`ISyntheticKeyboard`, `ISystemActions
 | 項目 | 状況 |
 |---|---|
 | ビルド(Linux)/ publish(linux-x64, win-x64) | 確認済み |
-| 単体テスト 361 件(行カバレッジ 約 79%) | 合格 |
+| 単体テスト 427 件 | 合格 |
 | 画面描画(ヘッドレス)・DI 解決・プロファイル読み書き | 確認済み |
 | Wii Remote の自動ペアリング・接続(Windows / Linux) | **確認済み**(利用者による報告) |
 | Wii Remote のボタン読み取り(Windows / Linux) | **確認済み**(利用者による報告) |
