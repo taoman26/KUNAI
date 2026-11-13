@@ -45,6 +45,17 @@ public partial class App : Application
                 }
             }
 
+            // 2 つ目の起動を求められたら、このウィンドウを前面に出す(トレイに隠れていても表示する)。
+            if (_services.GetService<SingleInstanceGuard>() is { } guard)
+            {
+                guard.ActivationRequested += (_, _) => Avalonia.Threading.Dispatcher.UIThread.Post(() =>
+                {
+                    window.Show();
+                    window.WindowState = Avalonia.Controls.WindowState.Normal;
+                    window.Activate();
+                });
+            }
+
             // 起動時に自動ロード。
             window.Opened += async (_, _) => await viewModel.InitializeAsync();
 

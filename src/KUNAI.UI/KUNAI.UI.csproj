@@ -20,6 +20,8 @@
     <PackageReference Include="Avalonia.Desktop" Version="11.3.0" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.0" />
     <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.0" />
+    <!-- Avalonia.FreeDesktop が引き込む Tmds.DBus.Protocol 0.21.2 には既知の脆弱性(GHSA-xrw6-gwf8-vvr9)があるため、修正版を明示する。 -->
+    <PackageReference Include="Tmds.DBus.Protocol" Version="0.21.3" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
   </ItemGroup>
